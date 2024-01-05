@@ -5,6 +5,7 @@ import (
 	"log"
 	"reflect"
 	"strconv"
+	"strings"
 	"time"
 )
 
@@ -124,13 +125,13 @@ func (m marshel) changeStruct(rv reflect.Value) {
 			}
 			field.SetInt(int64(intValue))
 		case reflect.Float64:
-			intValue, err := strconv.ParseFloat(m.data[m.rowIndex][index], 64)
+			intValue, err := strconv.ParseFloat(strings.ReplaceAll(m.data[m.rowIndex][index], " ", ""), 64)
 			if err != nil {
 				log.Fatal("cell is not a float64")
 			}
 			field.SetFloat(intValue)
 		case reflect.Float32:
-			intValue, err := strconv.ParseFloat(m.data[m.rowIndex][index], 32)
+			intValue, err := strconv.ParseFloat(strings.ReplaceAll(m.data[m.rowIndex][index], " ", ""), 32)
 			if err != nil {
 				log.Fatal("cell is not a float32")
 			}
