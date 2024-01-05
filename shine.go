@@ -133,17 +133,25 @@ func (m marshel) changeStruct(rv reflect.Value) {
 			}
 			field.SetInt(int64(intValue))
 		case reflect.Float64:
-			intValue, err := strconv.ParseFloat(normalizeFloat(m.data[m.rowIndex][index]), 64)
-			if err != nil {
-				log.Fatalf("cell value %s is not a float32", m.data[m.rowIndex][index])
+			if m.data[m.rowIndex][index] != "" {
+				intValue, err := strconv.ParseFloat(normalizeFloat(m.data[m.rowIndex][index]), 64)
+				if err != nil {
+					log.Fatalf("cell value %s is not a float32", m.data[m.rowIndex][index])
+				}
+				field.SetFloat(intValue)
+			} else {
+				field.SetFloat(0)
 			}
-			field.SetFloat(intValue)
 		case reflect.Float32:
-			intValue, err := strconv.ParseFloat(normalizeFloat(m.data[m.rowIndex][index]), 32)
-			if err != nil {
-				log.Fatalf("cell value %s is not a float32", m.data[m.rowIndex][index])
+			if m.data[m.rowIndex][index] != "" {
+				intValue, err := strconv.ParseFloat(normalizeFloat(m.data[m.rowIndex][index]), 32)
+				if err != nil {
+					log.Fatalf("cell value %s is not a float32", m.data[m.rowIndex][index])
+				}
+				field.SetFloat(intValue)
+			} else {
+				field.SetFloat(0)
 			}
-			field.SetFloat(intValue)
 		case reflect.Struct:
 			switch field.Type().String() {
 			case "time.Time":
