@@ -45,8 +45,8 @@ func (m marshel) changerv(rv reflect.Value) {
 func normalizeFloat(input string) (result string) {
 	result = input
 	result = strings.ReplaceAll(result, " ", "")
-	result = strings.ReplaceAll(result, ",", ".")
-	result = strings.Replace(result, ".", "", 1)
+	//result = strings.ReplaceAll(result, ",", ".")
+	//result = strings.Replace(result, ".", "", 1)
 	return
 }
 
