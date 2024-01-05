@@ -11,6 +11,7 @@ type excelData struct {
 	fileName  string
 	sheetName string
 	startRow  int
+	endRow    int
 }
 
 func (e excelData) GetData() [][]string {
@@ -29,9 +30,12 @@ func (e excelData) GetData() [][]string {
 	if err != nil {
 		log.Fatal(err)
 	}
+	if e.endRow > 0 {
+		return rows[e.startRow:e.endRow]
+	}
 	return rows[e.startRow:]
 }
 
-func New(fileName, sheetName string, startRow int) excelData {
+func New(fileName, sheetName string, startRow int, endRow int) excelData {
 	return excelData{fileName: fileName, sheetName: sheetName, startRow: startRow}
 }
