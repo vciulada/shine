@@ -127,13 +127,13 @@ func (m marshel) changeStruct(rv reflect.Value) {
 		case reflect.Float64:
 			intValue, err := strconv.ParseFloat(strings.ReplaceAll(m.data[m.rowIndex][index], " ", ""), 64)
 			if err != nil {
-				log.Fatal("cell is not a float64")
+				log.Fatalf("cell value %s is not a float32", m.data[m.rowIndex][index])
 			}
 			field.SetFloat(intValue)
 		case reflect.Float32:
 			intValue, err := strconv.ParseFloat(strings.ReplaceAll(m.data[m.rowIndex][index], " ", ""), 32)
 			if err != nil {
-				log.Fatal("cell is not a float32")
+				log.Fatalf("cell value %s is not a float32", m.data[m.rowIndex][index])
 			}
 			field.SetFloat(intValue)
 		case reflect.Struct:
