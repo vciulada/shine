@@ -42,6 +42,14 @@ func (m marshel) changerv(rv reflect.Value) {
 	}
 }
 
+func normalizeFloat(input string) (result string) {
+	result = input
+	result = strings.ReplaceAll(result, " ", "")
+	result = strings.ReplaceAll(result, ",", ".")
+	result = strings.Replace(result, ".", "", 1)
+	return
+}
+
 func (m marshel) changeStruct(rv reflect.Value) {
 	if !rv.CanAddr() {
 		return
@@ -125,13 +133,13 @@ func (m marshel) changeStruct(rv reflect.Value) {
 			}
 			field.SetInt(int64(intValue))
 		case reflect.Float64:
-			intValue, err := strconv.ParseFloat(strings.ReplaceAll(m.data[m.rowIndex][index], " ", ""), 64)
+			intValue, err := strconv.ParseFloat(normalizeFloat(m.data[m.rowIndex][index]), 64)
 			if err != nil {
 				log.Fatalf("cell value %s is not a float32", m.data[m.rowIndex][index])
 			}
 			field.SetFloat(intValue)
 		case reflect.Float32:
-			intValue, err := strconv.ParseFloat(strings.ReplaceAll(m.data[m.rowIndex][index], " ", ""), 32)
+			intValue, err := strconv.ParseFloat(normalizeFloat(m.data[m.rowIndex][index]), 32)
 			if err != nil {
 				log.Fatalf("cell value %s is not a float32", m.data[m.rowIndex][index])
 			}
