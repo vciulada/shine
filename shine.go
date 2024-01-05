@@ -45,8 +45,12 @@ func (m marshel) changerv(rv reflect.Value) {
 func normalizeFloat(input string) (result string) {
 	result = input
 	result = strings.ReplaceAll(result, " ", "")
-	//result = strings.ReplaceAll(result, ",", ".")
-	//result = strings.Replace(result, ".", "", 1)
+	if strings.Contains(result, ".") && strings.Contains(result, ",") {
+		result = strings.ReplaceAll(result, ",", ".")
+		result = strings.Replace(result, ".", "", 1)
+	} else {
+		result = strings.ReplaceAll(result, ",", "")
+	}
 	return
 }
 
@@ -136,7 +140,7 @@ func (m marshel) changeStruct(rv reflect.Value) {
 			if m.data[m.rowIndex][index] != "" {
 				intValue, err := strconv.ParseFloat(normalizeFloat(m.data[m.rowIndex][index]), 64)
 				if err != nil {
-					log.Fatalf("cell value %s is not a float32", m.data[m.rowIndex][index])
+					log.Fatalf("cell value %s is not a float64", m.data[m.rowIndex][index])
 				}
 				field.SetFloat(intValue)
 			} else {
