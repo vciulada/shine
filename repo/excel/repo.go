@@ -37,5 +37,5 @@ func (e excelData) GetData() [][]string {
 }
 
 func New(fileName, sheetName string, startRow int, endRow int) excelData {
-	return excelData{fileName: fileName, sheetName: sheetName, startRow: startRow}
+	return excelData{fileName: fileName, sheetName: sheetName, startRow: startRow, endRow: endRow}
 }
