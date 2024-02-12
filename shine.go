@@ -70,7 +70,7 @@ func (m marshel) changeStruct(rv reflect.Value) {
 			log.Fatal("excel tag is not a number")
 		}
 		if len(m.data[m.rowIndex]) <= index {
-			//skip if data cell is empty
+			//skip if data cell does not exists
 			continue
 		}
 		switch field.Kind() {
@@ -140,7 +140,7 @@ func (m marshel) changeStruct(rv reflect.Value) {
 			if m.data[m.rowIndex][index] != "" {
 				intValue, err := strconv.ParseFloat(normalizeFloat(m.data[m.rowIndex][index]), 64)
 				if err != nil {
-					log.Fatalf("cell value %s is not a float64", m.data[m.rowIndex][index])
+					log.Fatalf("cell value %s is not a float64 on line %d", m.data[m.rowIndex][index], m.rowIndex)
 				}
 				field.SetFloat(intValue)
 			} else {
@@ -150,7 +150,7 @@ func (m marshel) changeStruct(rv reflect.Value) {
 			if m.data[m.rowIndex][index] != "" {
 				intValue, err := strconv.ParseFloat(normalizeFloat(m.data[m.rowIndex][index]), 32)
 				if err != nil {
-					log.Fatalf("cell value %s is not a float32", m.data[m.rowIndex][index])
+					log.Fatalf("cell value %s is not a float32 on line %d", m.data[m.rowIndex][index], m.rowIndex)
 				}
 				field.SetFloat(intValue)
 			} else {
@@ -159,6 +159,9 @@ func (m marshel) changeStruct(rv reflect.Value) {
 		case reflect.Struct:
 			switch field.Type().String() {
 			case "time.Time":
+				if m.data[m.rowIndex][index] == "" {
+					continue
+				}
 				date, err := time.Parse("01-02-06", m.data[m.rowIndex][index])
 				if err != nil {
 					log.Fatalf("cannot parse %s to date on line %d:%s", date, m.rowIndex, err)
